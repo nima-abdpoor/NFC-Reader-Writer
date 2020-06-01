@@ -16,6 +16,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         try {
-
             btnwrite.setOnClickListener {
                 val intent = Intent(this, WriteData::class.java)
                 startActivity(intent)
@@ -89,6 +89,13 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         val action = intent.action
+        if(NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().action)){
+                val tag: Tag =
+                    getIntent().getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+                    Log.i("akflajslkfjlas","Technologies available in this tag=" +
+                            Arrays.toString(tag.getTechList()))
+
+        }
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == action) {
 
             val parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
